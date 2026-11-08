@@ -6,7 +6,7 @@
 typedef enum
 {
     MENU_OPTION_PLAY = 0,
-    MENU_OPTION_EXIT
+    MENU_OPTION_HELP
 } MenuOption_t;
 
 typedef enum
@@ -25,6 +25,7 @@ void Menu_Init(void);
 void Menu_DrawStart(void);
 void Menu_DrawPause(void);
 void Menu_DrawGameOver(uint32_t score);
+void Menu_DrawHelp(void);
 void Menu_NextOption(void);
 void Menu_ResetSelection(void);
 void Menu_UpdateSelection(void);
