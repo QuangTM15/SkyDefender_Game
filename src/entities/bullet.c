@@ -77,3 +77,27 @@ void Bullet_Draw(void)
         }
     }
 }
+
+uint8_t Bullet_GetPosition(uint8_t index, int16_t *x, int16_t *y)
+{
+    uint8_t result = 0U;
+
+    if ((index < BULLET_MAX_COUNT) &&
+        (x != 0) && (y != 0) &&
+        (0U != bullets[index].active))
+    {
+        *x = bullets[index].x;
+        *y = bullets[index].y;
+        result = 1U;
+    }
+
+    return result;
+}
+
+void Bullet_Remove(uint8_t index)
+{
+    if (index < BULLET_MAX_COUNT)
+    {
+        bullets[index].active = 0U;
+    }
+}

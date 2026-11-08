@@ -18,5 +18,7 @@ void Bullet_Init(void);
 void Bullet_Spawn(int16_t x, int16_t y);
 void Bullet_Update(uint32_t deltaMs);
 void Bullet_Draw(void);
+uint8_t Bullet_GetPosition(uint8_t index, int16_t *x, int16_t *y);
+void Bullet_Remove(uint8_t index);
 
 #endif

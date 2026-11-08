@@ -238,3 +238,27 @@ void Enemy_Draw(void)
         }
     }
 }
+
+uint8_t Enemy_GetPosition(uint8_t index, int16_t *x, int16_t *y)
+{
+    uint8_t result = 0U;
+
+    if ((index < ENEMY_MAX_COUNT) &&
+        (x != 0) && (y != 0) &&
+        (0U != enemies[index].active))
+    {
+        *x = enemies[index].x;
+        *y = enemies[index].y;
+        result = 1U;
+    }
+
+    return result;
+}
+
+void Enemy_Remove(uint8_t index)
+{
+    if (index < ENEMY_MAX_COUNT)
+    {
+        enemies[index].active = 0U;
+    }
+}
