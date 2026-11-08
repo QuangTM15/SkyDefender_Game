@@ -1,25 +1,31 @@
 #include "game.h"
 #include "Arduino.h"
 #include "entities/player.h"
+#include "entities/bullet.h"
 #include "graphics/renderer.h"
 #include "input/input.h"
 
 #define GAME_FRAME_MS 30U
 #define GAME_MOVE_SPEED 350.0f
 #define GAME_MAX_DELTA_MS 100U
+#define GAME_FIRE_INTERVAL_MS 200U
 
 static Player_t player;
 static float playerX = 90.0f;
 static float playerY = 210.0f;
 static uint32_t lastFrame = 0U;
+static uint32_t lastFire = 0U;
 static uint8_t inputReady = 0U;
 
 void Game_Init(void)
 {
     Renderer_Init();
     Player_Init(&player);
+    Bullet_Init();
+
     playerX = (float)player.x;
     playerY = (float)player.y;
+
     inputReady = Input_Init();
 
     if (0U != inputReady)
@@ -30,6 +36,7 @@ void Game_Init(void)
 
     Player_Draw(&player);
     lastFrame = millis();
+    lastFire = lastFrame;
 }
 
 void Game_Update(void)
@@ -45,6 +52,7 @@ void Game_Update(void)
     }
 
     lastFrame = now;
+
     if (delta > GAME_MAX_DELTA_MS)
     {
         delta = GAME_MAX_DELTA_MS;
@@ -72,4 +80,13 @@ void Game_Update(void)
             Player_DrawDelta(&previous, &player);
         }
     }
+
+    if ((now - lastFire) >= GAME_FIRE_INTERVAL_MS)
+    {
+        Bullet_Spawn(player.x + (PLAYER_WIDTH / 2) - (BULLET_WIDTH / 2), player.y - (int16_t)BULLET_HEIGHT);
+        lastFire = now;
+    }
+
+    Bullet_Update(delta);
+    Bullet_Draw();
 }
